@@ -1,0 +1,39 @@
+varying vec2 vUv;
+varying vec3 vNormal;
+
+uniform float delta;
+uniform float dw;
+uniform float dh;
+
+const float PI = 3.1415926535897932384626433832795;
+const float PI_2 = 1.57079632679489661923;
+
+vec2 freq = vec2(1.0, 1.0);
+vec2 minSize = vec2(0.7, 0.7);
+
+float imageWidth = 1.5;
+float imageHeight = 1.5;
+
+float map(float value, float min1, float max1, float min2, float max2);
+
+void main() {
+	vUv = uv;
+	vNormal = normalize(normalMatrix * normal);
+
+	vec3 p = position;
+
+    float w = map(1.0 + sin((PI_2 * p.x * freq.x) / imageHeight + dh), 0.0, 2.0, minSize.x, 1.0) * imageWidth;
+    float h = map(1.0 + sin((PI_2 * p.y * freq.y) / imageWidth + dw), 0.0, 2.0, minSize.y, 1.0) * imageHeight;
+
+	float mapX = map(p.x, (imageWidth - w) / 2.0, (imageWidth + w) / 2.0, 0.0, imageWidth - 1.0);
+    float mapY = map(p.y, (imageHeight - h) / 2.0, (imageHeight + h) / 2.0, 0.0, imageHeight - 1.0);
+	
+	p.z = imageWidth * mapY + mapX;
+
+	vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
+	gl_Position = projectionMatrix * mvPosition;
+}
+
+float map(float value, float min1, float max1, float min2, float max2) {
+  return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
+}
