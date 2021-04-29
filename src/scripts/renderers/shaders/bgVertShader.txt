@@ -5,14 +5,16 @@ uniform float delta;
 uniform float dw;
 uniform float dh;
 
+varying float v_lighting;
+
 const float PI = 3.1415926535897932384626433832795;
 const float PI_2 = 1.57079632679489661923;
 
 vec2 freq = vec2(1.0, 1.0);
-vec2 minSize = vec2(0.7, 0.7);
+vec2 minSize = vec2(2.7, 1.7);
 
-float imageWidth = 1.5;
-float imageHeight = 1.5;
+float imageWidth = 10.0;
+float imageHeight = 10.0;
 
 float map(float value, float min1, float max1, float min2, float max2);
 
@@ -27,8 +29,13 @@ void main() {
 
 	float mapX = map(p.x, (imageWidth - w) / 2.0, (imageWidth + w) / 2.0, 0.0, imageWidth - 1.0);
     float mapY = map(p.y, (imageHeight - h) / 2.0, (imageHeight + h) / 2.0, 0.0, imageHeight - 1.0);
-	
-	p.z = imageWidth * mapY + mapX;
+
+	//mapX = map(mapX, 0.0, imageWidth, -0.5, 0.5);
+	//mapY = map(mapY, 0.0, imageHeight, -0.5, 0.5);
+	p.z = mapY + mapX;
+	//p.z = map(imageWidth * (mapY + mapX), 0.0, imageWidth, -1.0, 1.0);
+
+    v_lighting = p.z;
 
 	vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
 	gl_Position = projectionMatrix * mvPosition;

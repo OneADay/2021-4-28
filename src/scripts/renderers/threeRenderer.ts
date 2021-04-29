@@ -120,7 +120,8 @@ export default class ThreeRenderer implements BaseRenderer{
             }
         };
 
-        let bgGeometry = new THREE.PlaneGeometry(19, 10, 40, 40);
+        let bgGeometry = new THREE.PlaneGeometry(20, 20, 40, 40);
+        
         
         let bgMaterial = new THREE.ShaderMaterial({
             uniforms: bgUniforms,
@@ -128,11 +129,13 @@ export default class ThreeRenderer implements BaseRenderer{
             fragmentShader: bgFragShader,
             side: THREE.DoubleSide
         }); 
-    
+        
         
         //let bgMaterial = new THREE.MeshLambertMaterial({color: 0x00ff00});
         this.bg = new THREE.Mesh( bgGeometry, bgMaterial );
-        this.bg.position.set(0, 0, -20);
+        this.bg.position.set(-2, -2, -10);
+        this.bg.rotation.y = 20 * Math.PI / 180;
+        this.bg.rotation.x = -20 * Math.PI / 180;
         this.scene.add(this.bg);
 
 

@@ -1,6 +1,10 @@
 varying vec2 vUv;
 varying vec3 vNormal;
 uniform float delta;
+uniform float dw;
+uniform float dh;
+
+varying float v_lighting;
 
 void main() {
 	float r = (1.0 - vUv.y) * 0.9;
@@ -8,7 +12,9 @@ void main() {
 	float b = 0.5;
 	float a = 1.0;
 	
-	r = clamp(r, 0.0, 0.9);
-	g = clamp(g, 0.0, 0.5);
-	gl_FragColor = vec4(r, g, b, a);
+	r = clamp(r, 0.0, v_lighting);
+	g = clamp(g, 0.0, v_lighting);
+
+	gl_FragColor = vec4(r, g, b, 1.0);
+
 }
